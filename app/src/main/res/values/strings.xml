@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyScanner</string>
+    <string name="start_camera_fab_description">to start camera activity</string>
+    <string name="main_linearlayout_description">the main linearLayout contains recent documents</string>
+</resources>

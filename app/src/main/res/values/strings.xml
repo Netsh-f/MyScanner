@@ -6,4 +6,5 @@
     <string name="start_capture">Start Capture</string>
     <string name="stop_capture">Stop Capture</string>
     <string name="take_a_photo_fab_description">to take a photo</string>
+    <string name="testimage">testImage</string>
 </resources>

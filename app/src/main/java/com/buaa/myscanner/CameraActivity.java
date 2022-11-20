@@ -117,7 +117,7 @@ public class CameraActivity extends AppCompatActivity {
                     new ImageCapture.OnImageSavedCallback() {
                         @Override
                         public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
-                            String msg = "Photo capture succeeded: " + output.getSavedUri().getPath();
+                            String msg = "======Photo capture succeeded: " + output.getSavedUri().getPath();
                             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
                             Log.d(TAG, msg);
                         }

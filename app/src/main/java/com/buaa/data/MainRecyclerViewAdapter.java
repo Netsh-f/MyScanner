@@ -1,5 +1,8 @@
 package com.buaa.data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +16,6 @@ import com.buaa.myscanner.R;
 import java.util.List;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.ImageViewHolder> {
-    private List<TaskImage> mImageList;
-
     private List<TaskImage> imageList;
 
     public MainRecyclerViewAdapter(List<TaskImage> imageList) {
@@ -30,9 +31,12 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        if (mImageList != null) {
-            TaskImage current = mImageList.get(position);
-            holder.imageItemView.setImageURI(current.getUri());
+        Log.d("======setBitMap======", "onBindViewHolder");
+        if (imageList != null) {
+            TaskImage current = imageList.get(position);
+            Bitmap bitmap = BitmapFactory.decodeFile(current.getAbsolutePath());
+            holder.imageItemView.setImageBitmap(bitmap);
+            Log.d("======setBitMap======", current.getAbsolutePath());
         }
     }
 
@@ -42,7 +46,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
     public void setImages(List<TaskImage> images) {
-        mImageList = images;
+        imageList = images;
         notifyDataSetChanged();
     }
 

@@ -2,6 +2,8 @@ package com.buaa.myscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentUris;
@@ -40,9 +42,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_main);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(new MainRecyclerViewAdapter(getTaskImageList()));
 
-        mImageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
+
+//        mImageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
     }
 
@@ -76,7 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 String path = cursor.getString(dataIndex);
                 String relativePath = cursor.getString(relativePathIndex);
 
-                Log.d("======path======", relativePath);
+                Log.d("======path======", path);
+
+                TaskImage taskImage = new TaskImage(imageUri, path, relativePath);
+                imageList.add(taskImage);
             }
             cursor.close();
         }

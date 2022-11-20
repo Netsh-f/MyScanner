@@ -1,6 +1,7 @@
 package com.buaa.myscanner;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +27,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.buaa.myscanner.databinding.ActivityCameraBinding;
+import com.buaa.utils.FileHelper;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -94,7 +99,7 @@ public class CameraActivity extends AppCompatActivity {
             contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image");
+                contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/MyScanner");
             }
 
             // Create output options object which contains file + metadata
@@ -112,7 +117,7 @@ public class CameraActivity extends AppCompatActivity {
                     new ImageCapture.OnImageSavedCallback() {
                         @Override
                         public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
-                            String msg = "Photo capture succeeded: ${output.savedUri}";
+                            String msg = "Photo capture succeeded: " + output.getSavedUri().getPath();
                             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
                             Log.d(TAG, msg);
                         }

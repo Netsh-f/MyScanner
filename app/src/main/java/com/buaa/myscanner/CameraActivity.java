@@ -2,6 +2,7 @@ package com.buaa.myscanner;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class CameraActivity extends AppCompatActivity {
 
     private final String TAG = "CameraXApp";
     private final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
+
+    public static final String NEW_PHOTO_PATH = "com.buaa.myscanner.CameraActivity new photo path";
 
     static {
         if (Build.VERSION.SDK_INT <= 28) {
@@ -117,9 +120,9 @@ public class CameraActivity extends AppCompatActivity {
                     new ImageCapture.OnImageSavedCallback() {
                         @Override
                         public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
-                            String msg = "======Photo capture succeeded: " + output.getSavedUri().getPath();
-                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, msg);
+                            String path = output.getSavedUri().getPath();
+//                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
+                            Log.d("======Photo capture succeeded: ======", path);
                         }
 
                         @Override
@@ -128,7 +131,6 @@ public class CameraActivity extends AppCompatActivity {
                         }
                     }
             );
-
             finish();
         }
     };

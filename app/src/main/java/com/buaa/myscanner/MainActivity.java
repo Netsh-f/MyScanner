@@ -25,7 +25,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabStartCamera;
-    private ImageViewModel mImageViewModel;
+    private ImageViewModel imageViewModel;
+    private MainRecyclerViewAdapter recyclerViewAdapter;
+    public static final int START_CAMERA_REQUEST_CODE = 1;
+
+    public ImageViewModel getImageViewModel() {
+        return imageViewModel;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +43,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, START_CAMERA_REQUEST_CODE);
             }
         });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView_main);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(new MainRecyclerViewAdapter(getTaskImageList()));
+        recyclerViewAdapter = new MainRecyclerViewAdapter(getTaskImageList());
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+        imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
 
 //        mImageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
     }
 
-    private List<TaskImage> getTaskImageList() {
+    public List<TaskImage> getTaskImageList() {
         Uri tableUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         List<TaskImage> imageList = new ArrayList<>();
 
@@ -89,5 +98,15 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
         }
         return imageList;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == START_CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            Log.d("======onActivityResult======", "addImages");
+            TaskImage taskImage = new TaskImage(data.getStringExtra(CameraActivity.NEW_PHOTO_PATH));
+            recyclerViewAdapter.addImages(taskImage);
+        }
     }
 }

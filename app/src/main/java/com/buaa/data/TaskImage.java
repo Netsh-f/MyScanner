@@ -18,9 +18,17 @@ public class TaskImage {
     public TaskImage() {
     }
 
+    public void setAbsolutePath(String absolutePath) {
+        this.absolutePath = absolutePath;
+    }
+
     public TaskImage(Uri uri, String absolutePath, String relativePath) {
         this.uri = uri;
         this.absolutePath = absolutePath;
         this.relativePath = relativePath;
+    }
+
+    public TaskImage(String absolutePath) {
+        this.absolutePath = absolutePath;
     }
 }

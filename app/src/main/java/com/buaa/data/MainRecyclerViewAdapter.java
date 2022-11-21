@@ -45,6 +45,11 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         return imageList == null ? 0 : imageList.size();
     }
 
+    public void addImages(TaskImage image){
+        imageList.add(image);
+        notifyDataSetChanged();
+    }
+
     public void setImages(List<TaskImage> images) {
         imageList = images;
         notifyDataSetChanged();

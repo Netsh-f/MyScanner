@@ -2,8 +2,6 @@ package com.buaa.myscanner;
 
 import android.app.Application;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
@@ -32,13 +30,8 @@ import androidx.core.content.ContextCompat;
 import com.buaa.data.MainRecyclerViewAdapter;
 import com.buaa.data.TaskImage;
 import com.buaa.myscanner.databinding.ActivityCameraBinding;
-import com.buaa.utils.FileHelper;
-import com.buaa.utils.MediaStoreHelper;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;

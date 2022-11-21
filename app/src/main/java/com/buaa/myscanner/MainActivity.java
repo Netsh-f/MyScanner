@@ -1,5 +1,6 @@
 package com.buaa.myscanner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -11,15 +12,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.buaa.data.ImageViewModel;
 import com.buaa.data.MainRecyclerViewAdapter;
 import com.buaa.data.TaskImage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageViewModel imageViewModel;
     private MainRecyclerViewAdapter recyclerViewAdapter;
     public static final int START_CAMERA_REQUEST_CODE = 1;
+
+    private static MainRecyclerViewAdapter globalRecyclerViewAdapter;
+    private static void setAdapter(MainRecyclerViewAdapter adapter){
+        globalRecyclerViewAdapter = adapter;
+    }
+
+    public static MainRecyclerViewAdapter getAdapter(){
+        return globalRecyclerViewAdapter;
+    }
+
 
     public ImageViewModel getImageViewModel() {
         return imageViewModel;
@@ -52,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerViewAdapter = new MainRecyclerViewAdapter(getTaskImageList());
         recyclerView.setAdapter(recyclerViewAdapter);
+        MainActivity.setAdapter(recyclerViewAdapter);
 
         imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
@@ -90,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
                 String path = cursor.getString(dataIndex);
                 String relativePath = cursor.getString(relativePathIndex);
 
+                Log.d("======imageUri======", imageUri.getPath());
                 Log.d("======path======", path);
+                Log.d("======relativePath======", relativePath);
 
                 TaskImage taskImage = new TaskImage(imageUri, path, relativePath);
                 imageList.add(taskImage);

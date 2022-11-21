@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buaa.myscanner.R;
+import com.buaa.utils.ImageHelper;
 
 import java.util.List;
 
@@ -31,10 +32,12 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Log.d("======setBitMap======", "onBindViewHolder");
         if (imageList != null) {
             TaskImage current = imageList.get(position);
-            Bitmap bitmap = BitmapFactory.decodeFile(current.getAbsolutePath());
+//            Bitmap bitmap = BitmapFactory.decodeFile(current.getAbsolutePath());
+
+            Bitmap bitmap = ImageHelper.loadBitmap(current.getAbsolutePath(), true);
+
             holder.imageItemView.setImageBitmap(bitmap);
             Log.d("======setBitMap======", current.getAbsolutePath());
         }

@@ -1,9 +1,11 @@
 package com.buaa.myscanner;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,8 +29,11 @@ import androidx.camera.video.VideoCapture;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.buaa.data.MainRecyclerViewAdapter;
+import com.buaa.data.TaskImage;
 import com.buaa.myscanner.databinding.ActivityCameraBinding;
 import com.buaa.utils.FileHelper;
+import com.buaa.utils.MediaStoreHelper;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
@@ -114,6 +119,7 @@ public class CameraActivity extends AppCompatActivity {
 
             // Set up image capture listener, which is triggered after photo has
             // been taken
+            final Application application = getApplication();
             imageCapture.takePicture(
                     outputOptions,
                     ContextCompat.getMainExecutor(CameraActivity.this),
@@ -121,8 +127,18 @@ public class CameraActivity extends AppCompatActivity {
                         @Override
                         public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
                             String path = output.getSavedUri().getPath();
-//                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
                             Log.d("======Photo capture succeeded: ======", path);
+
+                            String[] projection = new String[]{MediaStore.Images.Media.DATA};
+                            Cursor cursor = getContentResolver().query(
+                                    output.getSavedUri(), projection, null, null, null);
+                            cursor.moveToFirst();
+                            int dataIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                            String absolutePath = cursor.getString(dataIndex);
+                            cursor.close();
+
+                            MainRecyclerViewAdapter adapter = MainActivity.getAdapter();
+                            adapter.addImages(new TaskImage(absolutePath));
                         }
 
                         @Override

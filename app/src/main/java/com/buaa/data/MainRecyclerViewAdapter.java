@@ -48,8 +48,13 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         return imageList == null ? 0 : imageList.size();
     }
 
-    public void addImages(TaskImage image){
+    public void addImages(TaskImage image) {
         imageList.add(image);
+        notifyDataSetChanged();
+    }
+
+    public void deleteImage(int position){
+        imageList.remove(position);
         notifyDataSetChanged();
     }
 
@@ -65,5 +70,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             super(itemView);
             imageItemView = itemView.findViewById(R.id.imageView_for_recyclerView);
         }
+    }
+
+    public TaskImage getTaskImageAtPosition(int position) {
+        return imageList.get(position);
     }
 }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,11 +36,12 @@ public class MainActivity extends AppCompatActivity {
     public static final int START_CAMERA_REQUEST_CODE = 1;
 
     private static MainRecyclerViewAdapter globalRecyclerViewAdapter;
-    private static void setAdapter(MainRecyclerViewAdapter adapter){
+
+    private static void setAdapter(MainRecyclerViewAdapter adapter) {
         globalRecyclerViewAdapter = adapter;
     }
 
-    public static MainRecyclerViewAdapter getAdapter(){
+    public static MainRecyclerViewAdapter getAdapter() {
         return globalRecyclerViewAdapter;
     }
 
@@ -65,14 +67,33 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView_main);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerViewAdapter = new MainRecyclerViewAdapter(getTaskImageList());
+//        recyclerViewAdapter = new MainRecyclerViewAdapter(getTaskImageList());
+        recyclerViewAdapter = new MainRecyclerViewAdapter(new ArrayList<TaskImage>());
         recyclerView.setAdapter(recyclerViewAdapter);
         MainActivity.setAdapter(recyclerViewAdapter);
 
         imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
 
-//        mImageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                int position = viewHolder.getAdapterPosition();
+                TaskImage image = recyclerViewAdapter.getTaskImageAtPosition(position);
+                Toast.makeText(MainActivity.this, "delete image: "+image.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                recyclerViewAdapter.deleteImage(position);
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
     }
 

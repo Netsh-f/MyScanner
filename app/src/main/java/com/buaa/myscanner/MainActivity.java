@@ -31,7 +31,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabStartCamera;
-    private ImageViewModel imageViewModel;
     private MainRecyclerViewAdapter recyclerViewAdapter;
     public static final int START_CAMERA_REQUEST_CODE = 1;
 
@@ -43,11 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainRecyclerViewAdapter getAdapter() {
         return globalRecyclerViewAdapter;
-    }
-
-
-    public ImageViewModel getImageViewModel() {
-        return imageViewModel;
     }
 
     @Override
@@ -71,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewAdapter = new MainRecyclerViewAdapter(new ArrayList<TaskImage>());
         recyclerView.setAdapter(recyclerViewAdapter);
         MainActivity.setAdapter(recyclerViewAdapter);
-
-        imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {

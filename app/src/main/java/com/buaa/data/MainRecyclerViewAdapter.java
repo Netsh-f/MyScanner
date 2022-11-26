@@ -23,6 +23,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         this.imageList = imageList;
     }
 
+    public List<TaskImage> getImageList() {
+        return imageList;
+    }
+
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,7 +57,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         notifyDataSetChanged();
     }
 
-    public void deleteImage(int position){
+    public void deleteImage(int position) {
         imageList.remove(position);
         notifyDataSetChanged();
     }

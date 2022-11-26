@@ -4,19 +4,33 @@ import android.app.Application;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ShareCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.buaa.imagine.Imagine;
+import com.buaa.imagine.filter.DocumentFilter;
+import com.buaa.myscanner.MainActivity;
+import com.buaa.pdfpacker.PDFPacker;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ImageViewModel extends AndroidViewModel {
     private List<TaskImage> imageList;
+    private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
+    private static final String pdfPath = "PDF";
 
     public ImageViewModel(@NonNull Application application) {
         super(application);
@@ -61,5 +75,52 @@ public class ImageViewModel extends AndroidViewModel {
             cursor.close();
         }
         return imageList;
+    }
+
+    public void sharePDF(List<TaskImage> list) {
+        new SharePDFAsyncTask().execute(list);
+    }
+
+    private static class SharePDFAsyncTask extends AsyncTask<List<TaskImage>, Void, Void> {
+        @Override
+        protected Void doInBackground(List<TaskImage>... lists) {
+            ArrayList<String> pathList = new ArrayList<>();
+
+            lists[0].forEach(taskImage -> {
+                pathList.add(taskImage.getAbsolutePath());
+            });
+
+            Imagine imagine = Imagine.getInstance();
+            imagine.reset();
+            try {
+                imagine.importImagesFromFilenames(pathList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imagine.applyFilter(new DocumentFilter());
+
+            String filesDir = MainActivity.getContext().getExternalFilesDir(null).getAbsolutePath();
+            String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
+                    .format(System.currentTimeMillis());
+            String srcPath = Paths.get(filesDir, name).toString();
+            String destPath = Paths.get(filesDir, pdfPath).toString();
+            String pdfName = name;
+            try {
+                imagine.exportImagesToDirectory(srcPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Log.e("======sharePDF======", "complete export");
+
+            try {
+                PDFPacker.getInstance().packImagesToPDF(srcPath, destPath, pdfName);
+            } catch (IOException e) {
+                Log.d(MainActivity.myTag, "export PDF error");
+                e.printStackTrace();
+            }
+
+            return null;
+        }
     }
 }

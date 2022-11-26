@@ -2,6 +2,7 @@ package com.buaa.myscanner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -25,14 +27,21 @@ import com.buaa.data.MainRecyclerViewAdapter;
 import com.buaa.data.TaskImage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.opencv.android.OpenCVLoader;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabStartCamera;
+    private FloatingActionButton fabSharePDF;
     private MainRecyclerViewAdapter recyclerViewAdapter;
+    private ImageViewModel imageViewModel;
+    private static Context context;
     public static final int START_CAMERA_REQUEST_CODE = 1;
+
+    public static String myTag = "myTag";
 
     private static MainRecyclerViewAdapter globalRecyclerViewAdapter;
 
@@ -49,12 +58,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        loadOpenCv();
+        context = getApplicationContext();
+
+        imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
+
         fabStartCamera = findViewById(R.id.fab_startCamera);
         fabStartCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                 startActivityForResult(intent, START_CAMERA_REQUEST_CODE);
+            }
+        });
+
+        fabSharePDF = findViewById(R.id.fab_share);
+        fabSharePDF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageViewModel.sharePDF(recyclerViewAdapter.getImageList());
+
+//                shareText();
             }
         });
 
@@ -80,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                  int direction) {
                 int position = viewHolder.getAdapterPosition();
                 TaskImage image = recyclerViewAdapter.getTaskImageAtPosition(position);
-                Toast.makeText(MainActivity.this, "delete image: "+image.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "delete image: " + image.getAbsolutePath(), Toast.LENGTH_LONG).show();
                 recyclerViewAdapter.deleteImage(position);
             }
         });
@@ -139,5 +163,27 @@ public class MainActivity extends AppCompatActivity {
             TaskImage taskImage = new TaskImage(data.getStringExtra(CameraActivity.NEW_PHOTO_PATH));
             recyclerViewAdapter.addImages(taskImage);
         }
+    }
+
+    private void loadOpenCv() {
+        boolean success = OpenCVLoader.initDebug();   //对OpenCV库进行初始化加载，bool返回值可以判断是否加载成功。
+        if (success) {
+            Toast.makeText(this.getApplicationContext(), "OpenCV库加载成功", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this.getApplicationContext(), "OpenCV库加载失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public void shareText(){
+        ShareCompat.IntentBuilder
+                .from(this)
+                .setType("text/plain")
+                .setChooserTitle("Share this text with")
+                .setText("123456")
+                .startChooser();
     }
 }

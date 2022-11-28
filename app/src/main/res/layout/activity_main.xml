@@ -39,7 +39,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:clickable="true"
-        android:contentDescription="the fab to share PDF"
+        android:contentDescription="@string/the_fab_to_share_pdf"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fab_startCamera"
         app:srcCompat="@android:drawable/ic_menu_share" />

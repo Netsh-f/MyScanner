@@ -7,4 +7,5 @@
     <string name="stop_capture">Stop Capture</string>
     <string name="take_a_photo_fab_description">to take a photo</string>
     <string name="testimage">testImage</string>
+    <string name="the_fab_to_share_pdf">the fab to share PDF</string>
 </resources>

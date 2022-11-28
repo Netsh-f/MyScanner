@@ -1,7 +1,9 @@
 package com.buaa.myscanner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ShareCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -19,6 +21,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -62,6 +67,19 @@ public class MainActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.my_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.share_btn_in_toolbar:
+                        Toast.makeText(MainActivity.this, "Share in toolbar", Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+        });
 
         fabStartCamera = findViewById(R.id.fab_startCamera);
         fabStartCamera.setOnClickListener(new View.OnClickListener() {
@@ -167,18 +185,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadOpenCv() {
         boolean success = OpenCVLoader.initDebug();   //对OpenCV库进行初始化加载，bool返回值可以判断是否加载成功。
-        if (success) {
-            Toast.makeText(this.getApplicationContext(), "OpenCV库加载成功", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this.getApplicationContext(), "OpenCV库加载失败", Toast.LENGTH_SHORT).show();
-        }
+//        if (success) {
+//            Toast.makeText(this.getApplicationContext(), "OpenCV库加载成功", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(this.getApplicationContext(), "OpenCV库加载失败", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     public static Context getContext() {
         return context;
     }
 
-    public void shareText(){
+    public void shareText() {
         ShareCompat.IntentBuilder
                 .from(this)
                 .setType("text/plain")

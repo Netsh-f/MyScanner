@@ -11,14 +11,7 @@ package com.buaa.imagine.filter;
 
 import org.opencv.core.Mat;
 
-public class OriginalFilter implements IFilter {
-	/**
-	 * Nothing.
-	 * @param params none
-	 */
-	@Override
-	public void setParam(double... params) {}
-
+public class OriginalFilter extends Filter {
 	/**
 	 * Perform original filter. This actually does nothing.
 	 * @param mat the source image Mat

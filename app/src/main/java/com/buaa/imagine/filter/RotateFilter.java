@@ -3,7 +3,7 @@ package com.buaa.imagine.filter;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
-public class RotateFilter implements IFilter {
+public class RotateFilter extends Filter {
 	/**
 	 * Rotate the image by 90 degree clockwise.
 	 * @param mat the source image Mat
@@ -17,14 +17,5 @@ public class RotateFilter implements IFilter {
 		Core.flip(transpose, flip, 1);
 
 		return flip;
-	}
-
-	/**
-	 * Set param... no param to set.
-	 * @param params none
-	 */
-	@Override
-	public void setParam(double... params) {
-
 	}
 }

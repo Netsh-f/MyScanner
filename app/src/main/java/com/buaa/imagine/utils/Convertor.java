@@ -10,7 +10,6 @@
 package com.buaa.imagine.utils;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
@@ -26,7 +25,6 @@ public class Convertor {
 	 * @return converted Bitmap
 	 */
 	public static Bitmap matToBitmap(Mat mat) {
-
 		Bitmap bitmap = Bitmap.createBitmap(mat.width(), mat.height(), Bitmap.Config.RGB_565);
 		Utils.matToBitmap(mat, bitmap);
 
@@ -40,7 +38,6 @@ public class Convertor {
 	 * @return converted OpenCV Mat
 	 */
 	public static Mat bitmapToMat(Bitmap bitmap) {
-
 		Mat mat = new Mat();
 		Utils.bitmapToMat(bitmap, mat);
 

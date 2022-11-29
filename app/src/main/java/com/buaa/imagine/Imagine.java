@@ -11,7 +11,7 @@ package com.buaa.imagine;
 
 import android.graphics.Bitmap;
 
-import com.buaa.imagine.filter.IFilter;
+import com.buaa.imagine.filter.Filter;
 import com.buaa.imagine.utils.Convertor;
 
 import org.opencv.core.Core;
@@ -43,15 +43,6 @@ public class Imagine {
 	}
 
 	private Imagine() {}
-
-//	/**
-//	 * TODO:
-//	 * I'm not sure if Android need this...
-//	 * Probably not.
-//	 */
-//	static {
-//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//	}
 
 	// All data are stored as Mat.
 	private ArrayList<Mat> originalImages = new ArrayList<Mat>();
@@ -220,7 +211,7 @@ public class Imagine {
 	 * @param filter the filter to apply
 	 * @param index the specified index of the image
 	 */
-	public void applyFilter(IFilter filter, int index) {
+	public void applyFilter(Filter filter, int index) {
 		Mat mat = null;
 
 		try {
@@ -237,7 +228,7 @@ public class Imagine {
 	 * @param begin the beginning index
 	 * @param end the ending index, which is not included
 	 */
-	public void applyFilter(IFilter filter, int begin, int end) {
+	public void applyFilter(Filter filter, int begin, int end) {
 		for (int i = begin; i < end; i++) {
 			applyFilter(filter, i);
 		}
@@ -248,7 +239,7 @@ public class Imagine {
 	 * @param filter the filter to apply
 	 * @param indexList specified indexes
 	 */
-	public void applyFilter(IFilter filter, ArrayList<Integer> indexList) {
+	public void applyFilter(Filter filter, ArrayList<Integer> indexList) {
 		for (Integer i : indexList) {
 			applyFilter(filter, i);
 		}
@@ -258,7 +249,7 @@ public class Imagine {
 	 * Apply filter to all images.
 	 * @param filter the filter to apply
 	 */
-	public void applyFilter(IFilter filter) {
+	public void applyFilter(Filter filter) {
 		modifiedImages.clear();
 		for (Mat mat : originalImages) {
 			modifiedImages.add(filter.perform(mat));

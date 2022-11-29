@@ -12,17 +12,17 @@ package com.buaa.imagine.filter;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
-public class DocumentFilter implements IFilter {
+public class DocumentFilter extends Filter {
 	final int SHARPEN_AMOUNT = 101;
 	final int GAUSSIAN_BLUR_SIZE = 101;
-	private double gamma = 5.5;	// Parameter for gamma adjust
+	private double gamma = 5.0;	// Parameter for gamma adjust
 
 	/**
 	 * Set Parameter.
 	 * @param params gamma[0.0, 1.0]
 	 */
 	@Override
-	public void setParam(double... params) {
+	public void setParams(double... params) {
 		if (params.length >= 1) {
 			gamma = params[0];
 			if (gamma < 0.0) {

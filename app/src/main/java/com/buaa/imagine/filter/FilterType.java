@@ -14,5 +14,6 @@ package com.buaa.imagine.filter;
  */
 public enum FilterType {
 	ORIGINAL,
+	ROTATE,
 	DOCUMENT
 }

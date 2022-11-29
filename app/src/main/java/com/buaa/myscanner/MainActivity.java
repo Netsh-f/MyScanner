@@ -1,7 +1,7 @@
 package com.buaa.myscanner;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ShareCompat;
@@ -13,18 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.buaa.data.ImageViewModel;
@@ -34,7 +32,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.opencv.android.OpenCVLoader;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +72,17 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.share_btn_in_toolbar:
-                        Toast.makeText(MainActivity.this, "Share in toolbar", Toast.LENGTH_LONG).show();
+                        if (recyclerViewAdapter.getImageList().size() == 0) {
+                            Toast.makeText(MainActivity.this, "至少要有一张图片", Toast.LENGTH_SHORT).show();
+                        } else {
+                            sharePdfInputDialog();
+                        }
+                        break;
+                    case R.id.help_btn_in_toolbar:
+                        Toast.makeText(MainActivity.this,
+                                "右滑删除图片\n点击分享按钮即可生成PDF\n",
+                                Toast.LENGTH_LONG).show();
+                        break;
                 }
                 return false;
             }
@@ -87,16 +94,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                 startActivityForResult(intent, START_CAMERA_REQUEST_CODE);
-            }
-        });
-
-        fabSharePDF = findViewById(R.id.fab_share);
-        fabSharePDF.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageViewModel.sharePDF(recyclerViewAdapter.getImageList());
-
-//                shareText();
             }
         });
 
@@ -122,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                                  int direction) {
                 int position = viewHolder.getAdapterPosition();
                 TaskImage image = recyclerViewAdapter.getTaskImageAtPosition(position);
-                Toast.makeText(MainActivity.this, "delete image: " + image.getAbsolutePath(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, "delete image: " + image.getAbsolutePath(), Toast.LENGTH_LONG).show();
                 recyclerViewAdapter.deleteImage(position);
             }
         });
@@ -203,5 +200,17 @@ public class MainActivity extends AppCompatActivity {
                 .setChooserTitle("Share this text with")
                 .setText("123456")
                 .startChooser();
+    }
+
+    private void sharePdfInputDialog() {
+        EditText editText = new EditText(MainActivity.this);
+        AlertDialog.Builder inputDialog = new AlertDialog.Builder(MainActivity.this);
+        inputDialog.setTitle("PDF命名为").setView(editText);
+        inputDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                imageViewModel.sharePDFRename(recyclerViewAdapter.getImageList(), editText.getText().toString());
+            }
+        }).show();
     }
 }

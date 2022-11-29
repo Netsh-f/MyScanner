@@ -77,16 +77,19 @@ public class ImageViewModel extends AndroidViewModel {
         return imageList;
     }
 
-    public void sharePDF(List<TaskImage> list) {
-        new SharePDFAsyncTask().execute(list);
+    public void sharePDFRename(List<TaskImage> list, String pdfName) {
+        new SharePDFRenameAsyncTask().execute(list, pdfName);
     }
 
-    private static class SharePDFAsyncTask extends AsyncTask<List<TaskImage>, Void, Void> {
+    private static class SharePDFRenameAsyncTask extends AsyncTask<Object, Void, Void> {
         @Override
-        protected Void doInBackground(List<TaskImage>... lists) {
-            ArrayList<String> pathList = new ArrayList<>();
+        protected Void doInBackground(Object... params) {
 
-            lists[0].forEach(taskImage -> {
+            ArrayList<String> pathList = new ArrayList<>();
+            List<TaskImage> list = (List<TaskImage>) params[0];
+            String pdfName = (String) params[1];
+
+            list.forEach(taskImage -> {
                 pathList.add(taskImage.getAbsolutePath());
             });
 
@@ -104,14 +107,18 @@ public class ImageViewModel extends AndroidViewModel {
                     .format(System.currentTimeMillis());
             String srcPath = Paths.get(filesDir, name).toString();
             String destPath = Paths.get(filesDir, pdfPath).toString();
-            String pdfName = name;
+
+            if (pdfName == "") {
+                pdfName = name;
+            }
+
             try {
                 imagine.exportImagesToDirectory(srcPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            Log.e("======sharePDF======", "complete export");
+            Log.d("======sharePDF======", "complete export");
 
             try {
                 PDFPacker.getInstance().packImagesToPDF(srcPath, destPath, pdfName);
@@ -119,7 +126,6 @@ public class ImageViewModel extends AndroidViewModel {
                 Log.d(MainActivity.myTag, "export PDF error");
                 e.printStackTrace();
             }
-
             return null;
         }
     }

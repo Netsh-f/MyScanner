@@ -9,4 +9,5 @@
     <string name="testimage">testImage</string>
     <string name="the_fab_to_share_pdf">the fab to share PDF</string>
     <string name="share_in_Toolbar_menu">share</string>
+    <string name="help_title_in_Toolbar_menu">Help</string>
 </resources>

@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.buaa.data.ImageViewModel;
 import com.buaa.data.MainRecyclerViewAdapter;
 import com.buaa.data.TaskImage;
+import com.buaa.imagine.filter.DocumentFilter;
+import com.buaa.imagine.filter.Filter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.opencv.android.OpenCVLoader;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabStartCamera;
     private FloatingActionButton fabSharePDF;
     private MainRecyclerViewAdapter recyclerViewAdapter;
+    private Filter imagineFilter;
     private ImageViewModel imageViewModel;
     private static Context context;
     public static final int START_CAMERA_REQUEST_CODE = 1;
@@ -46,14 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public static String myTag = "myTag";
 
     private static MainRecyclerViewAdapter globalRecyclerViewAdapter;
-
-    private static void setAdapter(MainRecyclerViewAdapter adapter) {
-        globalRecyclerViewAdapter = adapter;
-    }
-
-    public static MainRecyclerViewAdapter getAdapter() {
-        return globalRecyclerViewAdapter;
-    }
+    private static Filter globalImagineFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
+        imagineFilter = new DocumentFilter();
+        MainActivity.setFilter(imagineFilter);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.my_menu);
@@ -126,6 +124,22 @@ public class MainActivity extends AppCompatActivity {
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+    }
+
+    private static void setAdapter(MainRecyclerViewAdapter adapter) {
+        globalRecyclerViewAdapter = adapter;
+    }
+
+    public static MainRecyclerViewAdapter getAdapter() {
+        return globalRecyclerViewAdapter;
+    }
+
+    public static void setFilter(Filter filter) {
+        globalImagineFilter = filter;
+    }
+
+    public static Filter getImagineFilter() {
+        return globalImagineFilter;
     }
 
     public List<TaskImage> getTaskImageList() {

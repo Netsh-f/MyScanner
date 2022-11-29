@@ -10,4 +10,5 @@
     <string name="the_fab_to_share_pdf">the fab to share PDF</string>
     <string name="share_in_Toolbar_menu">share</string>
     <string name="help_title_in_Toolbar_menu">Help</string>
+    <string name="delete_all_in_toolbar_menu">deleteAll_in_Toolbar_menu</string>
 </resources>

@@ -35,7 +35,7 @@ public class DocumentFilter extends Filter {
 	}
 
 	/**
-	 * Perform document filter, including B&W, color enhance.
+	 * Perform document filter, including B and W, color enhance.
 	 * @param mat the source image Mat
 	 * @return filtered image Mat
 	 */

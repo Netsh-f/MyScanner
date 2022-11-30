@@ -2,24 +2,25 @@ package com.buaa.data;
 
 import android.app.Application;
 import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ShareCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.buaa.imagine.Imagine;
 import com.buaa.imagine.filter.DocumentFilter;
 import com.buaa.myscanner.MainActivity;
 import com.buaa.pdfpacker.PDFPacker;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -108,7 +109,7 @@ public class ImageViewModel extends AndroidViewModel {
             String srcPath = Paths.get(filesDir, name).toString();
             String destPath = Paths.get(filesDir, pdfPath).toString();
 
-            if (pdfName == "") {
+            if (pdfName == "") {//如果输入为空，默认PDF名称为创建时间
                 pdfName = name;
             }
 
@@ -118,14 +119,14 @@ public class ImageViewModel extends AndroidViewModel {
                 e.printStackTrace();
             }
 
-            Log.d("======sharePDF======", "complete export");
-
             try {
                 PDFPacker.getInstance().packImagesToPDF(srcPath, destPath, pdfName);
             } catch (IOException e) {
                 Log.d(MainActivity.myTag, "export PDF error");
                 e.printStackTrace();
             }
+
+
             return null;
         }
     }

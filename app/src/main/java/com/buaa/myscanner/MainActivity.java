@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ShareCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             sharePdfInputDialog();
                         }
+                        break;
+                    case R.id.settings_btn_in_toolbar:
                         break;
                     case R.id.help_btn_in_toolbar:
                         Toast.makeText(MainActivity.this,

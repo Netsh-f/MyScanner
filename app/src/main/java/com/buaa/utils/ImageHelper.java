@@ -67,6 +67,7 @@ public class ImageHelper {
         }
     }
 
+    //有option参数的方法，用于加载缩略图
     public static Bitmap loadBitmap(String imgpath, boolean adjustOritation, BitmapFactory.Options opts) {
         if (!adjustOritation) {
             return loadBitmap(imgpath, opts);

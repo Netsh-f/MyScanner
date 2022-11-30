@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="滤镜设置">
+        <SwitchPreferenceCompat
+            app:key="Enable_enhancement_filter"
+            app:defaultValue="true"
+            app:summaryOn="开启滤镜"
+            app:summaryOff="关闭滤镜"
+            app:selectable="true"
+            app:title="是否启用滤镜" />
+        <SeekBarPreference
+            app:dependency="Enable_enhancement_filter"
+            app:defaultValue="55"
+            app:key="seekbar"
+            app:title="参数大小" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

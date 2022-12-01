@@ -2,17 +2,13 @@ package com.buaa.data;
 
 import android.app.Application;
 import android.content.ContentUris;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.buaa.imagine.Imagine;
@@ -20,7 +16,6 @@ import com.buaa.imagine.filter.DocumentFilter;
 import com.buaa.myscanner.MainActivity;
 import com.buaa.pdfpacker.PDFPacker;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -31,7 +26,7 @@ import java.util.Locale;
 public class ImageViewModel extends AndroidViewModel {
     private List<TaskImage> imageList;
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
-    private static final String pdfPath = "PDF";
+    private static final String mPdfPath = "PDF";
 
     public ImageViewModel(@NonNull Application application) {
         super(application);
@@ -107,7 +102,7 @@ public class ImageViewModel extends AndroidViewModel {
             String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
                     .format(System.currentTimeMillis());
             String srcPath = Paths.get(filesDir, name).toString();
-            String destPath = Paths.get(filesDir, pdfPath).toString();
+            String destPath = Paths.get(filesDir, mPdfPath).toString();
 
             if (pdfName == "") {//如果输入为空，默认PDF名称为创建时间
                 pdfName = name;
@@ -127,6 +122,67 @@ public class ImageViewModel extends AndroidViewModel {
             }
 
 
+            return null;
+        }
+    }
+
+    public void uploadPdfToBHPan(List<TaskImage> list, String pdfName, String bhPanUrl) {
+        new UploadPdfToBHPanAsyncTask().execute(list, pdfName, bhPanUrl);
+    }
+
+    private static class UploadPdfToBHPanAsyncTask extends AsyncTask<Object, Void, Void> {
+        @Override
+        protected Void doInBackground(Object... para) {
+            List<TaskImage> list = (ArrayList<TaskImage>) para[0];
+            String pdfName = (String) para[1];
+            String bhPanUrl = (String) para[2];
+
+            //同上
+            ArrayList<String> pathList = new ArrayList<>();
+
+            list.forEach(taskImage -> {
+                pathList.add(taskImage.getAbsolutePath());
+            });
+
+            Imagine imagine = Imagine.getInstance();
+            imagine.reset();
+            try {
+                imagine.importImagesFromFilenames(pathList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imagine.applyFilter(new DocumentFilter());
+
+            String filesDir = MainActivity.getContext().getExternalFilesDir(null).getAbsolutePath();
+            String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
+                    .format(System.currentTimeMillis());
+            String srcPath = Paths.get(filesDir, name).toString();
+            String destPath = Paths.get(filesDir, mPdfPath).toString();
+
+            if (pdfName == "") {//如果输入为空，默认PDF名称为创建时间
+                pdfName = name;
+            }
+
+            try {
+                imagine.exportImagesToDirectory(srcPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                PDFPacker.getInstance().packImagesToPDF(srcPath, destPath, pdfName);
+            } catch (IOException e) {
+                Log.d(MainActivity.myTag, "export PDF error");
+                e.printStackTrace();
+            }
+
+            String pdfAbsolutePath = Paths.get(destPath, pdfName + ".pdf").toString();
+
+//            try {
+//                BHPan.upload(bhPanUrl, pdfAbsolutePath);
+//            } catch (UploadFailException e) {
+//                e.printStackTrace();
+//            }
             return null;
         }
     }

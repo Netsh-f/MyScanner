@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.settings_btn_in_toolbar:
+                        uploadPdfToBHPan();
                         break;
                     case R.id.help_btn_in_toolbar:
                         Toast.makeText(MainActivity.this,
@@ -226,6 +227,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 imageViewModel.sharePDFRename(recyclerViewAdapter.getImageList(), editText.getText().toString());
+            }
+        }).show();
+    }
+
+    private void uploadPdfToBHPan(){
+
+        EditText editTextPdfName = new EditText(MainActivity.this);
+        AlertDialog.Builder inputDialog = new AlertDialog.Builder(MainActivity.this);
+        inputDialog.setTitle("PDF命名为").setView(editTextPdfName);
+
+        inputDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String pdfName = editTextPdfName.getText().toString();
+
+                EditText editTextBHPan = new EditText(MainActivity.this);
+                AlertDialog.Builder inputDialogBHPan = new AlertDialog.Builder(MainActivity.this);
+                inputDialogBHPan.setTitle("北航云盘链接为").setView(editTextBHPan);
+
+                inputDialogBHPan.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        imageViewModel.uploadPdfToBHPan(recyclerViewAdapter.getImageList(),
+                                pdfName, editTextBHPan.getText().toString());
+                    }
+                }).show();
             }
         }).show();
     }

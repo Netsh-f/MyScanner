@@ -29,33 +29,11 @@ android {
     buildFeatures {
         viewBinding true
     }
-}
-//task javadoc(type: Javadoc) {
-//    options.encoding = "UTF-8"
-//
-//    doFirst {
-//        configurations.implementation
-//                .filter { it.name.endsWith('.aar') }
-//                .each { aar ->
-//                    copy {
-//                        from zipTree(aar)
-//                        include "**/classes.jar"
-//                        into "$buildDir/tmp/aarsToJars/${aar.name.replace('.aar', '')}/"
-//                    }
-//                }
-//    }
-//
-//    configurations.implementation.setCanBeResolved(true)
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//    classpath += configurations.implementation
-//    classpath += fileTree(dir: "$buildDir/tmp/aarsToJars/")
-//    destinationDir = file("${project.buildDir}/outputs/javadoc/")
-//    failOnError false
-//    exclude '**/BuildConfig.java'
-//    exclude '**/R.java'
-//}
 
+    packagingOptions {
+        exclude'META-INF/DEPENDENCIES'
+    }
+}
 
 dependencies {
 
@@ -89,5 +67,5 @@ dependencies {
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
-    implementation files('libs/android.jar')
+//    implementation files('libs/android.jar')//生成javadoc的时候需要加上这句话
 }

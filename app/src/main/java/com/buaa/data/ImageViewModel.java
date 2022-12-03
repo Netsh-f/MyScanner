@@ -15,6 +15,7 @@ import com.buaa.imagine.Imagine;
 import com.buaa.imagine.filter.DocumentFilter;
 import com.buaa.myscanner.MainActivity;
 import com.buaa.pdfpacker.PDFPacker;
+import com.buaa.utils.PDFHelper;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -80,47 +81,11 @@ public class ImageViewModel extends AndroidViewModel {
     private static class SharePDFRenameAsyncTask extends AsyncTask<Object, Void, Void> {
         @Override
         protected Void doInBackground(Object... params) {
-
-            ArrayList<String> pathList = new ArrayList<>();
             List<TaskImage> list = (List<TaskImage>) params[0];
             String pdfName = (String) params[1];
 
-            list.forEach(taskImage -> {
-                pathList.add(taskImage.getAbsolutePath());
-            });
-
-            Imagine imagine = Imagine.getInstance();
-            imagine.reset();
-            try {
-                imagine.importImagesFromFilenames(pathList);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imagine.applyFilter(new DocumentFilter());
-
-            String filesDir = MainActivity.getContext().getExternalFilesDir(null).getAbsolutePath();
-            String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
-                    .format(System.currentTimeMillis());
-            String srcPath = Paths.get(filesDir, name).toString();
-            String destPath = Paths.get(filesDir, mPdfPath).toString();
-
-            if (pdfName == "") {//如果输入为空，默认PDF名称为创建时间
-                pdfName = name;
-            }
-
-            try {
-                imagine.exportImagesToDirectory(srcPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                PDFPacker.getInstance().packImagesToPDF(srcPath, destPath, pdfName);
-            } catch (IOException e) {
-                Log.d(MainActivity.myTag, "export PDF error");
-                e.printStackTrace();
-            }
-
+            String pdfAbsolutePath = PDFHelper.makePdf(list, pdfName);
+            PDFHelper.sharePdf(MainActivity.getContext(), pdfAbsolutePath);
 
             return null;
         }
@@ -137,46 +102,7 @@ public class ImageViewModel extends AndroidViewModel {
             String pdfName = (String) para[1];
             String bhPanUrl = (String) para[2];
 
-            //同上
-            ArrayList<String> pathList = new ArrayList<>();
-
-            list.forEach(taskImage -> {
-                pathList.add(taskImage.getAbsolutePath());
-            });
-
-            Imagine imagine = Imagine.getInstance();
-            imagine.reset();
-            try {
-                imagine.importImagesFromFilenames(pathList);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imagine.applyFilter(new DocumentFilter());
-
-            String filesDir = MainActivity.getContext().getExternalFilesDir(null).getAbsolutePath();
-            String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
-                    .format(System.currentTimeMillis());
-            String srcPath = Paths.get(filesDir, name).toString();
-            String destPath = Paths.get(filesDir, mPdfPath).toString();
-
-            if (pdfName == "") {//如果输入为空，默认PDF名称为创建时间
-                pdfName = name;
-            }
-
-            try {
-                imagine.exportImagesToDirectory(srcPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                PDFPacker.getInstance().packImagesToPDF(srcPath, destPath, pdfName);
-            } catch (IOException e) {
-                Log.d(MainActivity.myTag, "export PDF error");
-                e.printStackTrace();
-            }
-
-            String pdfAbsolutePath = Paths.get(destPath, pdfName + ".pdf").toString();
+            String pdfAbsolutePath = PDFHelper.makePdf(list, pdfName);
 
 //            try {
 //                BHPan.upload(bhPanUrl, pdfAbsolutePath);

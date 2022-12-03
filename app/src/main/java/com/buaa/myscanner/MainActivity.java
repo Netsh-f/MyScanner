@@ -5,18 +5,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ShareCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -34,6 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.opencv.android.OpenCVLoader;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         }).show();
     }
 
-    private void uploadPdfToBHPan(){
+    private void uploadPdfToBHPan() {
 
         EditText editTextPdfName = new EditText(MainActivity.this);
         AlertDialog.Builder inputDialog = new AlertDialog.Builder(MainActivity.this);

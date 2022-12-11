@@ -12,8 +12,3 @@ BUAA OOP面向对象JAVA大作业
 #### 同步项目须知
 
 本项目使用了opencv库，需要将opencv库导入，替换掉根目录下的opencv文件夹
-
-### dev Branch
-
-For blablabla...
-

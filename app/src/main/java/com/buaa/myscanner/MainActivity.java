@@ -93,7 +93,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.settings_btn_in_toolbar:
-                        uploadPdfToBHPan();
+                        if (recyclerViewAdapter.getImageList().size() == 0) {
+                            Toast.makeText(MainActivity.this, "至少要有一张图片", Toast.LENGTH_SHORT).show();
+                        } else {
+                            uploadPdfToBHPan();
+                        }
                         break;
                     case R.id.help_btn_in_toolbar:
                         Toast.makeText(MainActivity.this,

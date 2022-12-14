@@ -1,12 +1,4 @@
 package com.buaa.myscanner;
-/**
- * This is the camera activity, including preview photo view and photo button.
- *
- * @version 0.1.0
- * @author JQKonatsu
- * @create 2022/11/09 14:30
- * @since 0.1.0
- **/
 
 import android.app.Application;
 import android.content.ContentValues;
@@ -45,6 +37,13 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This is the camera activity, including preview photo view and photo button.
+ *
+ * @author JQKonatsu
+ * @version 0.1.0
+ * @since 0.1.0
+ **/
 public class CameraActivity extends AppCompatActivity {
     private ActivityCameraBinding viewBinding;
 
@@ -76,10 +75,10 @@ public class CameraActivity extends AppCompatActivity {
 
     /**
      * The onCreate method in CameraActivity
+     *
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:31
      */
 
     @Override
@@ -170,10 +169,11 @@ public class CameraActivity extends AppCompatActivity {
 
     /**
      * The method called in onCreate to start the camera.
+     *
      * @author JQKonatsu
      * @version 0.1.0
-     * @since 0.1.0
      * @date 2022/12/14 14:39
+     * @since 0.1.0
      */
 
     private void startCamera() {
@@ -236,10 +236,11 @@ public class CameraActivity extends AppCompatActivity {
 
     /**
      * Check whether the required permission is obtained.
+     *
      * @author JQKonatsu
      * @version 0.1.0
-     * @since 0.1.0
      * @date 2022/12/14 14:40
+     * @since 0.1.0
      */
 
     private boolean allPermissionsGranted() {
@@ -253,10 +254,10 @@ public class CameraActivity extends AppCompatActivity {
 
     /**
      * OnDestroy for CameraActivity to shutdown the camera.
+     *
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:41
      */
 
     @Override
@@ -267,10 +268,10 @@ public class CameraActivity extends AppCompatActivity {
 
     /**
      * Callback method of access method
+     *
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:43
      */
 
     @Override

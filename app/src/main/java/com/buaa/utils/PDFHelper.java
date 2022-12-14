@@ -37,11 +37,11 @@ public class PDFHelper {
     /**
      * Method of generating PDF file
      * @param list is a List for TaskImage which is the content of PDF, pdfName is the title of PDF file.
+     * @param pdfName the title of PDF.
      * @return The absolute path of PDF file.
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:47
      */
     
     public static String makePdf(List<TaskImage> list, String pdfName) {
@@ -92,11 +92,11 @@ public class PDFHelper {
 
     /**
      * Method for sharing PDf file.
+     * @param context context
      * @param pdfFilePath is the absolute path of PDf file.
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:48
      */
     
     @SuppressLint("QueryPermissionsNeeded")

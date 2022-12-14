@@ -1,14 +1,4 @@
 package com.buaa.myscanner;
-/**
- * This activity is the main interface of the program,
- * which includes the function of previewing pictures,
- * as well as the buttons to start the camera and share.
- *
- * @version 0.1.0
- * @author JQKonatsu
- * @create 2022/11/09 13:49
- * @since 0.1.0
- **/
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -47,6 +37,15 @@ import org.opencv.android.OpenCVLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This activity is the main interface of the program,
+ * which includes the function of previewing pictures,
+ * as well as the buttons to start the camera and share.
+ *
+ * @author JQKonatsu
+ * @version 0.1.0
+ * @since 0.1.0
+ **/
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabStartCamera;
     private MainRecyclerViewAdapter recyclerViewAdapter;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
      *
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:05
      * @since 0.1.0
      */
 
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
      * @param adapter is an instance created in onCreate.
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:09
+     * @create 2022/11/09 14:09
      * @since 0.1.0
      */
     private static void setAdapter(MainRecyclerViewAdapter adapter) {
@@ -166,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
      * @return globalRecyclerViewAdapter
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:12
      * @since 0.1.0
      */
     public static MainRecyclerViewAdapter getAdapter() {
@@ -179,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
      * @param filter is an DocumentFilter() instance created in onCreate
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:17
      * @since 0.1.0
      */
     public static void setFilter(Filter filter) {
@@ -192,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
      * @return globalImagineFilter
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:18
      * @since 0.1.0
      */
 
@@ -209,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
      * @return The imageList of images in "Pictures/MyScanner/"
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:19
      * @since 0.1.0
      */
 
@@ -256,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:24
+     * @create 2022/11/09 14:24
      * @since 0.1.0
      */
 
@@ -275,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
      * @return context
      * @author JQKonatsu
      * @version 0.1.0
-     * @date 2022/11/09 14:25
      * @since 0.1.0
      */
 

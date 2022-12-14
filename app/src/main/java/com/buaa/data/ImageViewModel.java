@@ -1,19 +1,7 @@
 package com.buaa.data;
-/**
- * A class that provides asynchronous execution to execute background code.
- * @version 0.1.0
- * @author JQKonatsu
- * @since 0.1.0
- * @create 2022/12/14 14:59
- **/
 
 import android.app.Application;
-import android.content.ContentUris;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -24,32 +12,40 @@ import com.buaa.utils.PDFHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that provides asynchronous execution to execute background code.
+ *
+ * @author JQKonatsu
+ * @version 0.1.0
+ * @since 0.1.0
+ **/
 public class ImageViewModel extends AndroidViewModel {
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
     private static final String mPdfPath = "PDF";
 
     /**
      * Constructor of ImageViewModel, which can initialize TaskImageList.
+     *
+     * @param application application
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 15:02
      */
-    
+
     public ImageViewModel(@NonNull Application application) {
         super(application);
     }
 
     /**
      * Asynchronous method for sharing PDF files.
-     * @param list the images list to be the content of PDF file.
+     *
+     * @param list    the images list to be the content of PDF file.
      * @param pdfName the title of PDF file.
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 15:06
      */
-    
+
     public void sharePDFRename(List<TaskImage> list, String pdfName) {
         new SharePDFRenameAsyncTask().execute(list, pdfName);
     }
@@ -69,13 +65,13 @@ public class ImageViewModel extends AndroidViewModel {
 
     /**
      * Asynchronous method for upload PDF files to BHPan.
-     * @param list the images list to be the content of PDF file.
-     * @param pdfName the title of PDF file.
+     *
+     * @param list     the images list to be the content of PDF file.
+     * @param pdfName  the title of PDF file.
      * @param bhPanUrl the url of BHPan.
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 15:07
      */
 
     public void uploadPdfToBHPan(List<TaskImage> list, String pdfName, String bhPanUrl) {

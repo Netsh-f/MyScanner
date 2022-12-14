@@ -24,7 +24,6 @@ public class ImageHelper {
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:51
      */
 
     public static Bitmap loadBitmap(String imgpath) {
@@ -39,7 +38,6 @@ public class ImageHelper {
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:51
      */
     public static Bitmap loadBitmap(String imgpath, BitmapFactory.Options opts) {
         return BitmapFactory.decodeFile(imgpath, opts);
@@ -53,7 +51,6 @@ public class ImageHelper {
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:56
      */
 
     public static Bitmap loadBitmap(String imgpath, boolean adjustOritation) {
@@ -108,7 +105,6 @@ public class ImageHelper {
      * @author JQKonatsu
      * @version 0.1.0
      * @since 0.1.0
-     * @date 2022/12/14 14:56
      */
     public static Bitmap loadBitmap(String imgpath, boolean adjustOritation, BitmapFactory.Options opts) {
         if (!adjustOritation) {

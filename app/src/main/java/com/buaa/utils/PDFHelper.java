@@ -1,4 +1,11 @@
 package com.buaa.utils;
+/**
+ * Tool class containing operations related to PDF files.
+ * @version 0.1.0
+ * @author JQKonatsu
+ * @since 0.1.0
+ * @create 2022/12/14 14:50
+ **/
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -27,6 +34,16 @@ public class PDFHelper {
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
     private static final String mPdfPath = "PDF";
 
+    /**
+     * Method of generating PDF file
+     * @param list is a List for TaskImage which is the content of PDF, pdfName is the title of PDF file.
+     * @return The absolute path of PDF file.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:47
+     */
+    
     public static String makePdf(List<TaskImage> list, String pdfName) {
         ArrayList<String> pathList = new ArrayList<>();
 
@@ -73,6 +90,15 @@ public class PDFHelper {
         return Paths.get(destPath, pdfName + ".pdf").toString();
     }
 
+    /**
+     * Method for sharing PDf file.
+     * @param pdfFilePath is the absolute path of PDf file.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:48
+     */
+    
     @SuppressLint("QueryPermissionsNeeded")
     public static void sharePdf(Context context, String pdfFilePath) {
         File shareFile = new File(pdfFilePath);

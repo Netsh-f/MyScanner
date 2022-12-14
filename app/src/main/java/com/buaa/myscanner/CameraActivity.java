@@ -1,4 +1,12 @@
 package com.buaa.myscanner;
+/**
+ * This is the camera activity, including preview photo view and photo button.
+ *
+ * @version 0.1.0
+ * @author JQKonatsu
+ * @create 2022/11/09 14:30
+ * @since 0.1.0
+ **/
 
 import android.app.Application;
 import android.content.ContentValues;
@@ -66,6 +74,14 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * The onCreate method in CameraActivity
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:31
+     */
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +101,14 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener takePhoto = new View.OnClickListener() {
+        /**
+         * Method to be executed when the photographing button is pressed.
+         * @author JQKonatsu
+         * @version 0.1.0
+         * @since 0.1.0
+         * @date 2022/12/14 14:37
+         */
+
         @Override
         public void onClick(View v) {
 
@@ -144,6 +168,14 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * The method called in onCreate to start the camera.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:39
+     */
+
     private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
 
@@ -202,6 +234,13 @@ public class CameraActivity extends AppCompatActivity {
                 , ContextCompat.getMainExecutor(this));
     }
 
+    /**
+     * Check whether the required permission is obtained.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:40
+     */
 
     private boolean allPermissionsGranted() {
         boolean res = true;
@@ -212,11 +251,27 @@ public class CameraActivity extends AppCompatActivity {
         return res;
     }
 
+    /**
+     * OnDestroy for CameraActivity to shutdown the camera.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:41
+     */
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         cameraExecutor.shutdown();
     }
+
+    /**
+     * Callback method of access method
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:43
+     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

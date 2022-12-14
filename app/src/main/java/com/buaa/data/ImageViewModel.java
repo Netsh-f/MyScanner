@@ -1,4 +1,11 @@
 package com.buaa.data;
+/**
+ * A class that provides asynchronous execution to execute background code.
+ * @version 0.1.0
+ * @author JQKonatsu
+ * @since 0.1.0
+ * @create 2022/12/14 14:59
+ **/
 
 import android.app.Application;
 import android.content.ContentUris;
@@ -11,28 +18,37 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.buaa.imagine.Imagine;
-import com.buaa.imagine.filter.DocumentFilter;
 import com.buaa.myscanner.MainActivity;
-import com.buaa.pdfpacker.PDFPacker;
 import com.buaa.utils.PDFHelper;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ImageViewModel extends AndroidViewModel {
     private List<TaskImage> imageList;
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
     private static final String mPdfPath = "PDF";
 
+    /**
+     * Constructor of ImageViewModel, which can initialize TaskImageList.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 15:02
+     */
+    
     public ImageViewModel(@NonNull Application application) {
         super(application);
         imageList = getTaskImageList();
     }
+    
+    /**
+     * getTaskImageList
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 15:02
+     */
 
     public List<TaskImage> getTaskImageList() {
         Uri tableUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -64,8 +80,6 @@ public class ImageViewModel extends AndroidViewModel {
                 String path = cursor.getString(dataIndex);
                 String relativePath = cursor.getString(relativePathIndex);
 
-                Log.d("======path======", path);
-
                 TaskImage taskImage = new TaskImage(imageUri, path, relativePath);
                 imageList.add(taskImage);
             }
@@ -74,6 +88,16 @@ public class ImageViewModel extends AndroidViewModel {
         return imageList;
     }
 
+    /**
+     * Asynchronous method for sharing PDF files.
+     * @param list the images list to be the content of PDF file.
+     * @param pdfName the title of PDF file.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 15:06
+     */
+    
     public void sharePDFRename(List<TaskImage> list, String pdfName) {
         new SharePDFRenameAsyncTask().execute(list, pdfName);
     }
@@ -90,6 +114,17 @@ public class ImageViewModel extends AndroidViewModel {
             return null;
         }
     }
+
+    /**
+     * Asynchronous method for upload PDF files to BHPan.
+     * @param list the images list to be the content of PDF file.
+     * @param pdfName the title of PDF file.
+     * @param bhPanUrl the url of BHPan.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 15:07
+     */
 
     public void uploadPdfToBHPan(List<TaskImage> list, String pdfName, String bhPanUrl) {
         new UploadPdfToBHPanAsyncTask().execute(list, pdfName, bhPanUrl);

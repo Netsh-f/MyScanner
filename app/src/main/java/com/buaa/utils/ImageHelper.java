@@ -1,4 +1,13 @@
 package com.buaa.utils;
+/**
+ * Tool class containing operations related to loading image files.
+ *
+ * @version 0.1.0
+ * @author JQKonatsu
+ * @create 2022/12/14 14:50
+ * @since 0.1.0
+ **/
+
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,19 +18,42 @@ import java.io.IOException;
 
 public class ImageHelper {
     /**
-     * 从给定路径加载图片
+     * Load pictures through the given path.
+     * @param imgpath is the absolute path of image.
+     * @return The Bitmap of given image.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:51
      */
 
     public static Bitmap loadBitmap(String imgpath) {
         return BitmapFactory.decodeFile(imgpath);
     }
 
+    /**
+     * Another method to load pictures through the given path, which can get thumbnails by loading options.
+     * @param imgpath is the absolute path of image.
+     * @param opts is a BitmapFactory.Options containing the parameters of thumbnails.
+     * @return The Bitmap of given image.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:51
+     */
     public static Bitmap loadBitmap(String imgpath, BitmapFactory.Options opts) {
         return BitmapFactory.decodeFile(imgpath, opts);
     }
 
     /**
-     * 从给定的路径加载图片，并指定是否自动旋转方向
+     * Load pictures from the given path and specify whether to automatically rotate the direction.
+     * @param imgpath the path of image.
+     * @param adjustOritation whether to automatically rotate the direction
+     * @return the bitMap of given image.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:56
      */
 
     public static Bitmap loadBitmap(String imgpath, boolean adjustOritation) {
@@ -67,7 +99,17 @@ public class ImageHelper {
         }
     }
 
-    //有option参数的方法，用于加载缩略图
+    /**
+     * Another method to load pictures from the given path and specify whether to automatically rotate the direction.
+     * @param imgpath the path of image.
+     * @param adjustOritation whether to automatically rotate the direction
+     * @param opts is a BitmapFactory.Options containing the parameters of thumbnails.
+     * @return the bitMap of given image.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     * @date 2022/12/14 14:56
+     */
     public static Bitmap loadBitmap(String imgpath, boolean adjustOritation, BitmapFactory.Options opts) {
         if (!adjustOritation) {
             return loadBitmap(imgpath, opts);

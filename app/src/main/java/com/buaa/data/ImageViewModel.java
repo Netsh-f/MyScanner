@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.buaa.bhpan.BHPan;
+import com.buaa.bhpan.exception.UploadFailException;
 import com.buaa.myscanner.MainActivity;
 import com.buaa.utils.PDFHelper;
 
@@ -87,11 +89,11 @@ public class ImageViewModel extends AndroidViewModel {
 
             String pdfAbsolutePath = PDFHelper.makePdf(list, pdfName);
 
-//            try {
-//                BHPan.upload(bhPanUrl, pdfAbsolutePath);
-//            } catch (UploadFailException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                BHPan.upload(bhPanUrl, pdfAbsolutePath);
+            } catch (UploadFailException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }

@@ -51,6 +51,10 @@ dependencies {
     implementation files('libs\\slf4j-api-2.0.4.jar')
 
     implementation 'androidx.preference:preference:1.1.1'
+    implementation files('libs\\json-java.jar')
+    implementation files('libs\\okhttp-3.10.0.jar')
+    implementation files('libs\\okio-1.14.0.jar')
+    implementation files('libs\\okio-3.2.0.jar')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'

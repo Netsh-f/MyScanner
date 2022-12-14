@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.settings_btn_in_toolbar:
-//                        uploadPdfToBHPan();
+                        uploadPdfToBHPan();
                         break;
                     case R.id.help_btn_in_toolbar:
                         Toast.makeText(MainActivity.this,

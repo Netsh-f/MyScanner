@@ -54,6 +54,7 @@ public class PDFHelper {
         });
 
         Imagine imagine = Imagine.getInstance();
+        imagine.clear();
         imagine.reset();
         try {
             imagine.importImagesFromFilenames(pathList);

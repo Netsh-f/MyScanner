@@ -255,4 +255,12 @@ public class Imagine {
 			modifiedImages.add(filter.perform(mat));
 		}
 	}
+
+	/**
+	 * Clear the Imaging.
+	 */
+	public void clear() {
+		originalImages.clear();
+		modifiedImages.clear();
+	}
 }

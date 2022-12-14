@@ -1,4 +1,13 @@
 package com.buaa.myscanner;
+/**
+ * This activity is the main interface of the program,
+ * which includes the function of previewing pictures,
+ * as well as the buttons to start the camera and share.
+ * @version 0.1.0
+ * @author JQKonatsu
+ * @since 0.1.0
+ * @create 2022/11/09 13:49
+ **/
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -81,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.settings_btn_in_toolbar:
-                        uploadPdfToBHPan();
+//                        uploadPdfToBHPan();
                         break;
                     case R.id.help_btn_in_toolbar:
                         Toast.makeText(MainActivity.this,

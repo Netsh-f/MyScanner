@@ -1,4 +1,13 @@
 package com.buaa.data;
+/**
+ * Customize the subclass of the RecyclerView.Adapter class,
+ * used to store preview effects and update views.
+ *
+ * @version 0.1.0
+ * @author JQKonatsu
+ * @create 2022/12/14 15:10
+ * @since 0.1.0
+ **/
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -47,7 +56,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             BitmapFactory.Options options = new BitmapFactory.Options();//需要一个options对象来设置图像的参数。
             options.inJustDecodeBounds = true;//这个参数为true的时候标示我们在下一步获取的old_bmp并不是一个图像，返回的只是图像的宽，高之类的数据，目的是得到图像的宽高，好自定义处理。
             Bitmap old_bmp = BitmapFactory.decodeFile(path, options);//在这里我们得到图像的一些数据，path是本地图片的路径。
-            options.inSampleSize = options.outWidth/1000;//计算出缩小倍率，分母是宽度设置，单位px，现在是800px，你也可以获取你的ImageView的宽度，从而计算出缩小倍率。如果options.inSampleSize =  10 的话，意思是长和宽同事缩小10倍。
+            options.inSampleSize = options.outWidth / 1000;//计算出缩小倍率，分母是宽度设置，单位px，现在是800px，你也可以获取你的ImageView的宽度，从而计算出缩小倍率。如果options.inSampleSize =  10 的话，意思是长和宽同事缩小10倍。
             options.inJustDecodeBounds = false;//这次我们需要真正的图像，所以在之前我们改为true现在要改回来。
             options.inPreferredConfig = Bitmap.Config.RGB_565;//ALPHA_8 代表8位Alpha位图ARGB_4444 代表16位ARGB位图ARGB_8888 代表32位ARGB位图RGB_565 代表8位RGB位图，感兴趣的同学可以详细的搜一下。
             options.inDither = false;    //不进行图片抖动处理
@@ -59,7 +68,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             Bitmap henceBitmap = MainActivity.getImagineFilter().perform(bitmap);
 
             holder.imageItemView.setImageBitmap(henceBitmap);
-            Log.d("======setBitMap======", path);
         }
     }
 
@@ -68,20 +76,45 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         return imageList == null ? 0 : imageList.size();
     }
 
+    /**
+     * The method to add one image to the list, and update the preview.
+     *
+     * @param image is the image to be added.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/12/14 15:13
+     * @since 0.1.0
+     */
+
     public void addImages(TaskImage image) {
         imageList.add(image);
         notifyDataSetChanged();
     }
+
+    /**
+     * The method to delete a image in the list, and update the preview.
+     *
+     * @param position is the serial number in the list.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/12/14 15:14
+     * @since 0.1.0
+     */
 
     public void deleteImage(int position) {
         imageList.remove(position);
         notifyDataSetChanged();
     }
 
-    public void setImages(List<TaskImage> images) {
-        imageList = images;
-        notifyDataSetChanged();
-    }
+    /**
+     * Set the content of each small element in the recyclerView,
+     * and set Bitmap for each imageView.
+     *
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/12/14 15:16
+     * @since 0.1.0
+     */
 
     class ImageViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageItemView;
@@ -91,6 +124,17 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             imageItemView = itemView.findViewById(R.id.imageView_for_recyclerView);
         }
     }
+
+    /**
+     * get an image by the serial number in the list.
+     *
+     * @param position is the serial number.
+     * @return A TaskImage
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/12/14 15:17
+     * @since 0.1.0
+     */
 
     public TaskImage getTaskImageAtPosition(int position) {
         return imageList.get(position);

@@ -18,6 +18,30 @@ import java.io.IOException;
 
 public class ImageHelper {
     /**
+     * Get an option as a parameter in the method of loading Bitmap thumbnails.
+     * 2022/12/14 16:47
+     * 
+     * @param path the path of image
+     * @param index This is the width of the picture. It is appropriate to set it to 1000
+     * @return A BitmapFactory.Options with thumbnails parameters
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     */
+    
+    public static BitmapFactory.Options getThumbnailOption(String path, int index){
+        //取得缩略图
+        BitmapFactory.Options options = new BitmapFactory.Options();//需要一个options对象来设置图像的参数。
+        options.inJustDecodeBounds = true;//这个参数为true的时候标示我们在下一步获取的old_bmp并不是一个图像，返回的只是图像的宽，高之类的数据，目的是得到图像的宽高，好自定义处理。
+        Bitmap old_bmp = BitmapFactory.decodeFile(path, options);//在这里我们得到图像的一些数据，path是本地图片的路径。
+        options.inSampleSize = options.outWidth / index;//计算出缩小倍率，分母是宽度设置，单位px，现在是800px，你也可以获取你的ImageView的宽度，从而计算出缩小倍率。如果options.inSampleSize =  10 的话，意思是长和宽同事缩小10倍。
+        options.inJustDecodeBounds = false;//这次我们需要真正的图像，所以在之前我们改为true现在要改回来。
+        options.inPreferredConfig = Bitmap.Config.RGB_565;//ALPHA_8 代表8位Alpha位图ARGB_4444 代表16位ARGB位图ARGB_8888 代表32位ARGB位图RGB_565 代表8位RGB位图，感兴趣的同学可以详细的搜一下。
+        options.inDither = false;    //不进行图片抖动处理
+        options.inPreferredConfig = null;  //设置让解码器以最佳方式解码
+        return options;
+    }
+    /**
      * Load pictures through the given path.
      * @param imgpath is the absolute path of image.
      * @return The Bitmap of given image.

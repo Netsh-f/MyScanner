@@ -11,6 +11,7 @@ import com.itextpdf.layout.element.Image;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class PDFPacker {
 	private static PDFPacker instance = null;
@@ -60,6 +61,47 @@ public class PDFPacker {
 
 		File[] files = srcDirFile.listFiles();
 		for (File file : files) {
+			ImageData imageData = ImageDataFactory.create(file.getPath());
+			Image image = new Image(imageData);
+			adjustImage(image);
+			document.add(image);
+		}
+
+		document.close();
+	}
+
+	/**
+	 * Pack images to PDF file through a list of image filenames.
+	 * @param filenames filenames of images. Must be valid
+	 * @param destDir dest directory of pdf document
+	 * @param pdfName filename of pdf document
+	 * @throws IOException
+	 */
+	public void packImagesToPDF(List<String> filenames, String destDir, String pdfName) throws IOException {
+		File destDirFile = new File(destDir);
+		if (destDirFile.exists()) {
+			if (!destDirFile.isDirectory()) {
+				throw new IOException();
+			}
+		} else {
+			destDirFile.mkdirs();
+		}
+
+		if (!pdfName.endsWith(".pdf")) {
+			pdfName += ".pdf";
+		}
+
+		File pdfFile = new File(Paths.get(destDir, pdfName).toString());
+		PdfWriter pdfWriter = new PdfWriter(pdfFile);
+		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+		Document document = new Document(pdfDocument, PageSize.A4);
+		document.setMargins(0f, 0f, 0f, 0f);
+
+		for (String filename : filenames) {
+			File file = new File(filename);
+			if (!(file.exists() && file.isFile())) {
+				continue;
+			}
 			ImageData imageData = ImageDataFactory.create(file.getPath());
 			Image image = new Image(imageData);
 			adjustImage(image);

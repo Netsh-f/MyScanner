@@ -10,6 +10,8 @@ package com.buaa.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -45,25 +47,27 @@ public class PDFHelper {
      */
     
     public static String makePdf(List<TaskImage> list, String pdfName) {
-        ArrayList<String> pathList = new ArrayList<>();
-
-        Log.d(MainActivity.myTag, "listSize = " + list.size());
+//        ArrayList<String> pathList = new ArrayList<>();
+        ArrayList<Bitmap> bitmapArrayList = new ArrayList<>();
 
         list.forEach(taskImage -> {
-            pathList.add(taskImage.getAbsolutePath());
+//            pathList.add(taskImage.getAbsolutePath());
+
+            String path = taskImage.getAbsolutePath();
+            BitmapFactory.Options options = ImageHelper.getThumbnailOption(path, 1500);
+            Bitmap bitmap = ImageHelper.loadBitmap(path, true, options);
+            bitmapArrayList.add(bitmap);
         });
 
         Imagine imagine = Imagine.getInstance();
         imagine.clear();
-        imagine.reset();
-        try {
-            imagine.importImagesFromFilenames(pathList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            imagine.importImagesFromFilenames(pathList);
+            imagine.importImages(bitmapArrayList);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         imagine.applyFilter(new DocumentFilter());
-
-        Log.d(MainActivity.myTag, "after imagine reset and import, imagine.size = " + imagine.getSize());
 
         String filesDir = MainActivity.getContext().getExternalFilesDir(null).getAbsolutePath();
         String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
@@ -71,14 +75,15 @@ public class PDFHelper {
         String srcPath = Paths.get(filesDir, name).toString();
         String destPath = Paths.get(filesDir, mPdfPath).toString();
 
-        if (pdfName == "") {//如果输入为空，默认PDF名称为创建时间
-            pdfName = name;
-        }
-
         try {
             imagine.exportImagesToDirectory(srcPath);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        //下面是生成pdf
+        if (pdfName == "") {//如果输入为空，默认PDF名称为创建时间
+            pdfName = name;
         }
 
         try {

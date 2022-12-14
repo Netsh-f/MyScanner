@@ -2,6 +2,7 @@ package com.buaa.data;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -24,6 +25,8 @@ import java.util.List;
 public class ImageViewModel extends AndroidViewModel {
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
     private static final String mPdfPath = "PDF";
+    public static boolean uploadFlag = false;
+    public static String uploadFailMessage;
 
     /**
      * Constructor of ImageViewModel, which can initialize TaskImageList.
@@ -90,11 +93,24 @@ public class ImageViewModel extends AndroidViewModel {
             String pdfAbsolutePath = PDFHelper.makePdf(list, pdfName);
 
             try {
+                ImageViewModel.uploadFlag = false;
                 BHPan.upload(bhPanUrl, pdfAbsolutePath);
+                ImageViewModel.uploadFlag = true;
             } catch (UploadFailException e) {
                 e.printStackTrace();
+                ImageViewModel.uploadFailMessage = e.getMessage();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            if (ImageViewModel.uploadFlag) {
+                Toast.makeText(MainActivity.getContext(), "上传成功", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(MainActivity.getContext(), "上传失败:" + ImageViewModel.uploadFailMessage, Toast.LENGTH_LONG).show();
+            }
+            super.onPostExecute(unused);
         }
     }
 }

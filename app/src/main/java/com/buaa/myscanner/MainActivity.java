@@ -3,10 +3,11 @@ package com.buaa.myscanner;
  * This activity is the main interface of the program,
  * which includes the function of previewing pictures,
  * as well as the buttons to start the camera and share.
+ *
  * @version 0.1.0
  * @author JQKonatsu
- * @since 0.1.0
  * @create 2022/11/09 13:49
+ * @since 0.1.0
  **/
 
 import androidx.annotation.NonNull;
@@ -14,21 +15,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ShareCompat;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -46,13 +44,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.opencv.android.OpenCVLoader;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabStartCamera;
-    private FloatingActionButton fabSharePDF;
     private MainRecyclerViewAdapter recyclerViewAdapter;
     private Filter imagineFilter;
     private ImageViewModel imageViewModel;
@@ -63,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static MainRecyclerViewAdapter globalRecyclerViewAdapter;
     private static Filter globalImagineFilter;
+
+    /**
+     * The onCreate methon in MainActivity.
+     *
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:05
+     * @since 0.1.0
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,21 +147,71 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Set global adapter of recyclerView for use by other classes.
+     *
+     * @param adapter is an instance created in onCreate.
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:09
+     * @since 0.1.0
+     */
     private static void setAdapter(MainRecyclerViewAdapter adapter) {
         globalRecyclerViewAdapter = adapter;
     }
 
+    /**
+     * The getter of global adapter for use by other classes
+     *
+     * @return globalRecyclerViewAdapter
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:12
+     * @since 0.1.0
+     */
     public static MainRecyclerViewAdapter getAdapter() {
         return globalRecyclerViewAdapter;
     }
 
+    /**
+     * The setter of globalImagineFilter for use by other classes.
+     *
+     * @param filter is an DocumentFilter() instance created in onCreate
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:17
+     * @since 0.1.0
+     */
     public static void setFilter(Filter filter) {
         globalImagineFilter = filter;
     }
 
+    /**
+     * The getter of globalImagineFilter for use by other classes.
+     *
+     * @return globalImagineFilter
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:18
+     * @since 0.1.0
+     */
+
     public static Filter getImagineFilter() {
         return globalImagineFilter;
     }
+
+    /**
+     * A deprecated method.
+     * The function of this method is to read the local picture list at startup,
+     * and it is used in sustainable applications.
+     * It is not needed in the current version.
+     *
+     * @return The imageList of images in "Pictures/MyScanner/"
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:19
+     * @since 0.1.0
+     */
 
     public List<TaskImage> getTaskImageList() {
         Uri tableUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -188,10 +243,6 @@ public class MainActivity extends AppCompatActivity {
                 String path = cursor.getString(dataIndex);
                 String relativePath = cursor.getString(relativePathIndex);
 
-                Log.d("======imageUri======", imageUri.getPath());
-                Log.d("======path======", path);
-                Log.d("======relativePath======", relativePath);
-
                 TaskImage taskImage = new TaskImage(imageUri, path, relativePath);
                 imageList.add(taskImage);
             }
@@ -200,15 +251,14 @@ public class MainActivity extends AppCompatActivity {
         return imageList;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == START_CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            Log.d("======onActivityResult======", "addImages");
-            TaskImage taskImage = new TaskImage(data.getStringExtra(CameraActivity.NEW_PHOTO_PATH));
-            recyclerViewAdapter.addImages(taskImage);
-        }
-    }
+    /**
+     * The method to load openCv dependency.
+     *
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:24
+     * @since 0.1.0
+     */
 
     private void loadOpenCv() {
         boolean success = OpenCVLoader.initDebug();   //对OpenCV库进行初始化加载，bool返回值可以判断是否加载成功。
@@ -219,18 +269,29 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
+    /**
+     * The getter of context in MainActivity.
+     *
+     * @return context
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:25
+     * @since 0.1.0
+     */
+
     public static Context getContext() {
         return context;
     }
 
-    public void shareText() {
-        ShareCompat.IntentBuilder
-                .from(this)
-                .setType("text/plain")
-                .setChooserTitle("Share this text with")
-                .setText("123456")
-                .startChooser();
-    }
+    /**
+     * The method to be executed when clicking the share button will pop up a dialog box
+     * to let the user name the generated PDF file.
+     *
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:26
+     * @since 0.1.0
+     */
 
     private void sharePdfInputDialog() {
         EditText editText = new EditText(MainActivity.this);
@@ -243,6 +304,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }).show();
     }
+
+    /**
+     * Method not completed yet.
+     * Code executed when clicking the button of uploading to the cloud disk of Beijing Airlines.
+     *
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @date 2022/11/09 14:27
+     * @since 0.1.0
+     */
 
     private void uploadPdfToBHPan() {
 

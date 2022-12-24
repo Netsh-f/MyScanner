@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private static Filter globalImagineFilter;
 
     /**
-     * The onCreate methon in MainActivity.
+     * The onCreate method in MainActivity.
      *
      * @author JQKonatsu
      * @version 0.1.0

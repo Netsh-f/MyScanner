@@ -58,7 +58,12 @@ public class BHPan {
 		}
 
 		// osbeginupload
+		// If permission denied, upload will fail.
 		JSONObject beginResponse = osBeginUpload(link, file);
+		if (beginResponse == null) {
+			throw new UploadFailException("Permission denied");
+		}
+
 		Map<String, String> info = null;
 		try {
 			info = parseEssentialInfo(beginResponse);

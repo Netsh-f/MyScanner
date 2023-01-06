@@ -19,4 +19,10 @@
         android:orderInCategory="4"
         android:title="@string/help_title_in_Toolbar_menu"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/about_btn_in_toolbar"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:orderInCategory="5"
+        android:title="@string/about_in_toolbar_menu"
+        app:showAsAction="never" />
 </menu>

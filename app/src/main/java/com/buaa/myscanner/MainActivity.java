@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buaa.data.ImageViewModel;
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                                 "右滑删除图片\n点击分享按钮即可生成PDF\n",
                                 Toast.LENGTH_LONG).show();
                         break;
+                    case R.id.about_btn_in_toolbar:
+                        showInfo();
+                        break;
                 }
                 return false;
             }
@@ -121,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView_main);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-//        recyclerViewAdapter = new MainRecyclerViewAdapter(getTaskImageList());
         recyclerViewAdapter = new MainRecyclerViewAdapter(new ArrayList<TaskImage>());
         recyclerView.setAdapter(recyclerViewAdapter);
         MainActivity.setAdapter(recyclerViewAdapter);
@@ -336,5 +339,21 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
             }
         }).show();
+    }
+
+    /**
+     *
+     * 2023/1/5 17:07
+     *
+     * @author JQKonatsu
+     * @version 0.1.0
+     * @since 0.1.0
+     */
+    private void showInfo() {
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                .setIcon(R.drawable.atri)
+                .setTitle("MyScanner")
+                .setMessage("version 1.0.1-normal\n\nStaff\n    JQKonatsu\n    Turmoil\n    Kangyx\n    ThunderUp")
+                .show();
     }
 }

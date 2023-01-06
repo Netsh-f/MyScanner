@@ -13,4 +13,5 @@
     <string name="delete_all_in_toolbar_menu">deleteAll_in_Toolbar_menu</string>
     <string name="settings_in_toolbar_menu">settings_in_Toolbar_menu</string>
     <string name="test_in_toolbar_menu">test</string>
+    <string name="about_in_toolbar_menu">About</string>
 </resources>

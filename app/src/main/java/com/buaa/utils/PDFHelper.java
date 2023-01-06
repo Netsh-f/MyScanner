@@ -72,7 +72,7 @@ public class PDFHelper {
         String filesDir = MainActivity.getContext().getExternalFilesDir(null).getAbsolutePath();
         String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
                 .format(System.currentTimeMillis());
-        String srcPath = Paths.get(filesDir, name).toString();
+        String srcPath = Paths.get(filesDir, "images", name).toString();
         String destPath = Paths.get(filesDir, mPdfPath).toString();
 
         try {
